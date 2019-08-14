@@ -2,12 +2,16 @@
 #haha yes
 import tkinter as tk
 from tkinter import Frame
+import png
+import mng
+from mapGen import *
 import linecache as lc
+from multiprocessing import Process,Queue,Pipe
 
 root = tk.Tk()
 root.configure(background="black")
 class App(tk.Tk):
-	
+
 	def __init__(self, master):
 		#setting up the initial state of the game when you load in.
 		master.minsize(802,400)
@@ -26,15 +30,24 @@ class App(tk.Tk):
 		self.label.grid(row=3, column=0,sticky="W")
 		self.label.place(x=1,y=380)
 		#initializes the player's index number
-		self.PXN = 1
-		#initializes which tiles are which kind
-		with open("worldtypes") as worldmap:
-			self.wat = str(lc.getline('worldtypes', 3))
-			self.rou = str(lc.getline('worldtypes', 5))
-			self.bun = str(lc.getline('worldtypes', 7))
-			self.fai = str(lc.getline('worldtypes', 9))
-			self.tow = str(lc.getline('worldtypes', 11))
-			self.dun = str(lc.getline('worldtypes', 13))
+		self.PXN = 1		
+		#intitalizes the lists we look through for PXN's tile type
+		worldgen()
+		if __name__ == '__main__':
+			reciever, sender = Pipe(False)
+			p = Process(target=worldgen.fullgen, args=(sender,))
+			p.start()
+			self.wat = reciever.recv()
+			self.bun = reciever.recv()
+			self.rou = reciever.recv()
+			self.fai = reciever.recv()
+			self.tow = reciever.recv()
+			self.dun = reciever.recv()
+			self.towN = reciever.recv()
+			self.dunN = reciever.recv()
+		#runs mapmaker if there is no map
+		#if (!os.path.isfile("./output files/worldtypes")):
+		#	gC.worldgen.init()
 		#lists of all possible spellings of directions, one per direction
 		self.nord = ["North", "north", "N", "n"]
 		self.sud = ["South", "south", "S", "s"]
@@ -47,16 +60,18 @@ class App(tk.Tk):
 		ent = self.entry.get()
 		self.yv -= 15
 		self.PXN
-		self.wat
-		self.rou
-		self.bun
-		self.fai
-		self.tow
-		self.dun
 		self.nord
 		self.sud
 		self.ost
 		self.westen
+		self.wat
+		self.bun
+		self.rou
+		self.fai
+		self.tow
+		self.dun
+		self.towN
+		self.dunN
 		def laugh():
 			sha = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "ha")
 			self.output['text'] = sha
@@ -68,53 +83,53 @@ class App(tk.Tk):
 				self.twoyv -= 30
 			def look(a):
 				if (a == "here"):
-					if ((" " + str(self.PXN)+ ",") in self.wat):
+					if (self.PXN in self.wat):
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str(self.PXN)+ ",") in self.rou):
+					elif (self.PXN in self.rou):
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in rough.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str(self.PXN)+ ",") in self.bun):
+					elif (self.PXN in self.bun):
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in bunker.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str(self.PXN)+ ",") in self.fai):
+					elif (self.PXN in self.fai):
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in fairway.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 9))+ ",") in self.tow):
+					elif (self.PXN in self.tow):
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str(self.PXN)+ ",") in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in dungeon.")
+					elif (self.PXN in self.dun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
 						self.output['text'] = stes
 						self.twoyv -= 30
 				elif (a in self.nord):
-					if ((" " + str((self.PXN - 9))+ ",") in self.wat):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see some water.")
+					if (self.PXN in self.wat):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 9))+ ",") in self.rou):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a rough.")
+					elif (self.PXN in self.rou):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in rough.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 9))+ ",") in self.bun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a bunker.")
+					elif (self.PXN in self.bun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in bunker.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 9))+ ",") in self.fai):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a fairway.")
+					elif (self.PXN in self.fai):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in fairway.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 9))+ ",") in self.tow):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a town.")
+					elif (self.PXN in self.tow):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 9))+ ",") in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a dungeon.")
+					elif (self.PXN in self.dun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
 						self.output['text'] = stes
 						self.twoyv -= 30
 					else:
@@ -122,28 +137,28 @@ class App(tk.Tk):
 						self.output['text'] = stes
 						self.twoyv -= 30
 				elif (a in self.sud):
-					if ((" " + str((self.PXN + 9))+ ",") in self.wat):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see some water.")
+					if (self.PXN in self.wat):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 9))+ ",") in self.rou):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a rough.")
+					elif (self.PXN in self.rou):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in rough.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 9))+ ",") in self.bun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a bunker.")
+					elif (self.PXN in self.bun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in bunker.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 9))+ ",") in self.fai):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a fairway.")
+					elif (self.PXN in self.fai):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in fairway.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 9))+ ",") in self.tow):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a town.")
+					elif (self.PXN in self.tow):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 9))+ ",") in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a dungeon.")
+					elif (self.PXN in self.dun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
 						self.output['text'] = stes
 						self.twoyv -= 30
 					else:
@@ -151,28 +166,28 @@ class App(tk.Tk):
 						self.output['text'] = stes
 						self.twoyv -= 30
 				elif (a in self.ost):
-					if ((" " + str((self.PXN + 1))+ ",") in self.wat):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see some water.")
+					if (self.PXN in self.wat):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 1))+ ",") in self.rou):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a rough.")
+					elif (self.PXN in self.rou):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in rough.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 1))+ ",") in self.bun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a bunker.")
+					elif (self.PXN in self.bun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in bunker.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 1))+ ",") in self.fai):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a fairway.")
+					elif (self.PXN in self.fai):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in fairway.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 1))+ ",") in self.tow):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a town.")
+					elif (self.PXN in self.tow):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN + 1))+ ",") in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a dungeon.")
+					elif (self.PXN in self.dun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
 						self.output['text'] = stes
 						self.twoyv -= 30
 					else:
@@ -180,28 +195,28 @@ class App(tk.Tk):
 						self.output['text'] = stes
 						self.twoyv -= 30
 				elif (a in self.westen):
-					if ((" " + str((self.PXN - 1))+ ",") in self.wat):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see some water.")
+					if (self.PXN in self.wat):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 1))+ ",") in self.rou):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a rough.")
+					elif (self.PXN in self.rou):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in rough.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 1))+ ",") in self.bun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a bunker.")
+					elif (self.PXN in self.bun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in bunker.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 1))+ ",") in self.fai):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a fairway.")
+					elif (self.PXN in self.fai):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in fairway.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 1))+ ",") in self.tow):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a town.")
+					elif (self.PXN in self.tow):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif ((" " + str((self.PXN - 1))+ ",") in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a dungeon.")
+					elif (self.PXN in self.dun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
 						self.output['text'] = stes
 						self.twoyv -= 30
 					else:
@@ -215,9 +230,7 @@ class App(tk.Tk):
 				self.twoyv -= 30
 			else:
 				self.PXN -= 9
-				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "you went north")
-				self.output['text'] = stes
-				self.twoyv -= 30
+				ee.look("here")
 		def east():
 			if((self.PXN + 1) > 81):
 				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "There is no land to the east. Only an endless evil fog.")
@@ -225,9 +238,7 @@ class App(tk.Tk):
 				self.twoyv -= 30
 			else:
 				self.PXN += 1
-				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "you went east")
-				self.output['text'] = stes
-				self.twoyv -= 30
+				ee.look("here")
 		def south():
 			if((self.PXN + 9) > 81):
 				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "There is no land to the south. Only an endless evil fog.")
@@ -235,9 +246,7 @@ class App(tk.Tk):
 				self.twoyv -= 30
 			else:
 				self.PXN += 9
-				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "you went south")
-				self.output['text'] = stes
-				self.twoyv -= 30
+				ee.look("here")
 		def west():
 			if((self.PXN - 1) < 1):
 				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "There is no land to the west. Only an endless evil fog.")
@@ -245,9 +254,7 @@ class App(tk.Tk):
 				self.twoyv -= 30
 			else:
 				self.PXN -= 1
-				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "you went west")
-				self.output['text'] = stes
-				self.twoyv -= 30
+				ee.look("here")
 		def pxn():
 			print(str(self.PXN))
 		def desc(r):
@@ -279,7 +286,7 @@ class App(tk.Tk):
 				print(entSpJ)
 				sterr = self.disp.set(self.disp.get() +"\n>" + entSpJ +"\n" + "I don't understand what you mean.")
 				self.output['text'] = sterr
-				print("42")
+				print("42 >:(")
 				print(c)
 				x = len(entSp)
 				self.twoyv -= (30)
