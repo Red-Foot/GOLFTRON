@@ -77,11 +77,14 @@ class App(tk.Tk):
 			self.output['text'] = sha
 			self.twoyv -= 30
 		class ee:
+			#test function
 			def printer(a):
 				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + a)
 				self.output['text'] = stes
 				self.twoyv -= 30
+			#describes your surroundings by comparing the lists of area types
 			def look(a):
+				#look at where you are
 				if (a == "here"):
 					if (self.PXN in self.wat):
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
@@ -100,129 +103,153 @@ class App(tk.Tk):
 						self.output['text'] = stes
 						self.twoyv -= 30
 					elif (self.PXN in self.tow):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
+						tnumber = self.tow.index(self.PXN)
+						tname = self.towN[tnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You approach a town. A sign reads \" Welcome to " + tname + "\".")
 						self.output['text'] = stes
 						self.twoyv -= 30
 					elif (self.PXN in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
+						dnumber = self.dun.index(self.PXN)
+						dname = self.dunN[dnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You approach a dungeon. It looks like a " + dname + ".")
 						self.output['text'] = stes
 						self.twoyv -= 30
+				#look north
 				elif (a in self.nord):
-					if (self.PXN in self.wat):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
+					if ((self.PXN - 9) in self.wat):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see water.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.rou):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in rough.")
+					elif ((self.PXN - 9) in self.rou):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see rough.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.bun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in bunker.")
+					elif ((self.PXN - 9) in self.bun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see bunker.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.fai):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in fairway.")
+					elif ((self.PXN - 9) in self.fai):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see fairway.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.tow):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
+					elif ((self.PXN - 9) in self.tow):
+						tnumber = self.tow.index((self.PXN - 9))
+						tname = self.towN[tnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a town, and can make out a distant sign. It reads: \n \" Welcome to " + tname + "\".")
 						self.output['text'] = stes
-						self.twoyv -= 30
-					elif (self.PXN in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
+						self.twoyv -= 45
+					elif ((self.PXN - 9) in self.dun):
+						dnumber = self.dun.index((self.PXN - 9))
+						dname = self.dunN[dnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a dungeon. It looks like a " + dname + ".")
 						self.output['text'] = stes
 						self.twoyv -= 30
 					else:
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "The only thing you see to the north is an endless evil fog.")
 						self.output['text'] = stes
 						self.twoyv -= 30
+				#look south
 				elif (a in self.sud):
-					if (self.PXN in self.wat):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
+					if ((self.PXN + 9) in self.wat):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see water.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.rou):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in rough.")
+					elif ((self.PXN + 9) in self.rou):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see rough.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.bun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in bunker.")
+					elif ((self.PXN + 9) in self.bun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see bunker.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.fai):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in fairway.")
+					elif ((self.PXN + 9) in self.fai):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see fairway.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.tow):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
+					elif ((self.PXN + 9) in self.tow):
+						tnumber = self.tow.index((self.PXN + 9))
+						tname = self.towN[tnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a town, and can make out a distant sign. It reads: \n \" Welcome to " + tname + "\".")
 						self.output['text'] = stes
-						self.twoyv -= 30
-					elif (self.PXN in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
+						self.twoyv -= 45
+					elif ((self.PXN + 9) in self.dun):
+						dnumber = self.dun.index((self.PXN + 9))
+						dname = self.dunN[dnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a dungeon. It looks like a " + dname + ".")
 						self.output['text'] = stes
 						self.twoyv -= 30
 					else:
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "The only thing you see to the south is an endless evil fog.")
 						self.output['text'] = stes
 						self.twoyv -= 30
+				#look east
 				elif (a in self.ost):
-					if (self.PXN in self.wat):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
+					if ((self.PXN + 1) in self.wat):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see water.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.rou):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in rough.")
+					elif ((self.PXN + 1) in self.rou):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see rough.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.bun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in bunker.")
+					elif ((self.PXN + 1) in self.bun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see bunker.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.fai):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in fairway.")
+					elif ((self.PXN + 1) in self.fai):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see fairway.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.tow):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
+					elif ((self.PXN + 1) in self.tow):
+						tnumber = self.tow.index((self.PXN + 1))
+						tname = self.towN[tnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a town, and can make out a distant sign. It reads: \n \" Welcome to " + tname + "\".")
 						self.output['text'] = stes
-						self.twoyv -= 30
-					elif (self.PXN in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
+						self.twoyv -= 45
+					elif ((self.PXN + 1) in self.dun):
+						dnumber = self.dun.index((self.PXN + 1))
+						dname = self.dunN[dnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a dungeon. It looks like a " + dname + ".")
 						self.output['text'] = stes
 						self.twoyv -= 30
 					else:
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "The only thing you see to the east is an endless evil fog.")
 						self.output['text'] = stes
 						self.twoyv -= 30
+				#look west
 				elif (a in self.westen):
-					if (self.PXN in self.wat):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in water.")
+					if ((self.PXN - 1) in self.wat):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see water.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.rou):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in rough.")
+					elif ((self.PXN - 1) in self.rou):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see rough.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.bun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in bunker.")
+					elif ((self.PXN - 1) in self.bun):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see bunker.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.fai):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in fairway.")
+					elif ((self.PXN - 1) in self.fai):
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see fairway.")
 						self.output['text'] = stes
 						self.twoyv -= 30
-					elif (self.PXN in self.tow):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You're in town.")
+					elif ((self.PXN - 1) in self.tow):
+						tnumber = self.tow.index((self.PXN - 1))
+						tname = self.towN[tnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a town, and can make out a distant sign. It reads: \n \" Welcome to " + tname + "\".")
 						self.output['text'] = stes
-						self.twoyv -= 30
-					elif (self.PXN in self.dun):
-						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "placeholder")
-						self.output['text'] = stes
+						self.twoyv -= 45
+					elif ((self.PXN - 1) in self.dun):
+						dnumber = self.dun.index((self.PXN - 1))
+						dname = self.dunN[dnumber]
+						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You see a dungeon. It looks like a " + dname + ".")
 						self.twoyv -= 30
 					else:
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "The only thing you see to the west is an endless evil fog.")
 						self.output['text'] = stes
 						self.twoyv -= 30
+		#these are the cases where you look somewhere off the map
 		def north():
 			if((self.PXN - 9) < 1):
 				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "There is no land to the north. Only an endless evil fog.")
@@ -255,8 +282,10 @@ class App(tk.Tk):
 			else:
 				self.PXN -= 1
 				ee.look("here")
+		#test function, tells you the number of the tile you are currently on
 		def pxn():
 			print(str(self.PXN))
+		#describes items
 		def desc(r):
 			if (r == "a"):
 				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "this is the letter \'a\' from the latin alphabet.")
