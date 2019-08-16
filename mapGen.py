@@ -49,6 +49,39 @@ class worldgen():
 		sender.send(worldgen.townName)
 		sender.send(worldgen.dungName)
 		sender.close()
+		with open("./output files/savedworld", "a+") as sW:
+			sW.write("a;")
+			for i in worldgen.wate:
+				sW.write(str(i))
+				sW.write(';')
+			sW.write("b;")
+			for i in worldgen.bunk:
+				sW.write(str(i))
+				sW.write(';')
+			sW.write("c;")
+			for i in worldgen.roug:
+				sW.write(str(i))
+				sW.write(';')
+			sW.write("d;")
+			for i in worldgen.fair:
+				sW.write(str(i))
+				sW.write(';')
+			sW.write("e;")
+			for i in worldgen.town:
+				sW.write(str(i))
+				sW.write(';')
+			sW.write("f;")
+			for i in worldgen.dung:
+				sW.write(str(i))
+				sW.write(';')
+			sW.write("g;")
+			for i in worldgen.townName:
+				sW.write(i)
+				sW.write(';')
+			sW.write("h;")
+			for i in worldgen.dungName:
+				sW.write(i)
+				sW.write(';')
 #water gen, randomly generates 1 - 11 tiles---------------------------------------------------------------------------
 	def watgen():
 		worldDW = []

@@ -2,11 +2,13 @@
 #haha yes
 import tkinter as tk
 from tkinter import Frame
+from pathlib import Path
 import png
 import mng
 from mapGen import *
 import linecache as lc
 from multiprocessing import Process,Queue,Pipe
+import itertools
 
 root = tk.Tk()
 root.configure(background="black")
@@ -31,23 +33,185 @@ class App(tk.Tk):
 		self.label.place(x=1,y=380)
 		#initializes the player's index number
 		self.PXN = 1		
-		#intitalizes the lists we look through for PXN's tile type
-		worldgen()
-		if __name__ == '__main__':
-			reciever, sender = Pipe(False)
-			p = Process(target=worldgen.fullgen, args=(sender,))
-			p.start()
-			self.wat = reciever.recv()
-			self.bun = reciever.recv()
-			self.rou = reciever.recv()
-			self.fai = reciever.recv()
-			self.tow = reciever.recv()
-			self.dun = reciever.recv()
-			self.towN = reciever.recv()
-			self.dunN = reciever.recv()
-		#runs mapmaker if there is no map
-		#if (!os.path.isfile("./output files/worldtypes")):
-		#	gC.worldgen.init()
+		#if the game has run before we choose not to regenerate it
+		with open("./output files/worldtypes") as wF:
+			FCt = wF.read()
+			print(FCt)
+			if ("a" not in FCt):
+				print("this should only appear when the world is being populated for the first time.")
+				#intitalizes the lists we look through for PXN's tile type
+				worldgen()
+				if __name__ == '__main__':
+					reciever, sender = Pipe(False)
+					p = Process(target=worldgen.fullgen, args=(sender,))
+					p.start()
+					self.wat = reciever.recv()
+					self.bun = reciever.recv()
+					self.rou = reciever.recv()
+					self.fai = reciever.recv()
+					self.tow = reciever.recv()
+					self.dun = reciever.recv()
+					self.towN = reciever.recv()
+					self.dunN = reciever.recv()
+			else:
+				#read from saved data
+				print("work now?")
+				with open("./output files/savedworld") as sD:
+					sD.seek(0)
+					strAll = sD.readline()
+					listAll = strAll.split(";")
+					self.wat = []
+					self.bun = []
+					self.rou = []
+					self.fai = []
+					self.tow = []
+					self.dun = []
+					self.towN = []
+					self.dunN = []
+					#converting raw data to a usable format
+					#water conversion
+					for i in listAll:
+						if i == "b":
+							print("breaking")
+							break
+						elif i == "a":
+							print("cont")
+						else:
+							print("appending " + i)
+							self.wat.append(int(i))
+					print("water")
+					print(self.wat)
+					del listAll[0]
+					for i in self.wat:
+						ii = str(i)
+						if (ii in listAll):
+							listAll.remove(ii)
+					print(listAll)
+					#bunker conversion
+					for i in listAll:
+						if i == "c":
+							print("breaking")
+							break
+						elif i == "b":
+							print("cont")
+						else:
+							print("appending " + i)
+							self.bun.append(int(i))
+					print("bunker")
+					print(self.bun)
+					del listAll[0]
+					for i in self.bun:
+						ii = str(i)
+						if (ii in listAll):
+							listAll.remove(ii)
+					print(listAll)
+					#rough conversion
+					for i in listAll:
+						if i == "d":
+							print("breaking")
+							break
+						elif i == "c":
+							print("cont")
+						else:
+							print("appending " + i)
+							self.rou.append(int(i))
+					print("rough")
+					print(self.rou)
+					del listAll[0]
+					for i in self.rou:
+						ii = str(i)
+						if (ii in listAll):
+							listAll.remove(ii)
+					print(listAll)
+					#fairway conversion
+					for i in listAll:
+						if i == "e":
+							print("breaking")
+							break
+						elif i == "d":
+							print("cont")
+						else:
+							print("appending " + i)
+							self.fai.append(int(i))
+					print("fairway")
+					print(self.fai)
+					del listAll[0]
+					for i in self.fai:
+						ii = str(i)
+						if (ii in listAll):
+							listAll.remove(ii)
+					print(listAll)
+					#town conversion
+					for i in listAll:
+						if i == "f":
+							print("breaking")
+							break
+						elif i == "e":
+							print("cont")
+						else:
+							print("appending " + i)
+							self.tow.append(int(i))
+					print("town")
+					print(self.tow)
+					del listAll[0]
+					for i in self.tow:
+						ii = str(i)
+						if (ii in listAll):
+							listAll.remove(ii)
+					print(listAll)
+					#dungeon conversion
+					for i in listAll:
+						if i == "g":
+							print("breaking")
+							break
+						elif i == "f":
+							print("cont")
+						else:
+							print("appending " + i)
+							self.dun.append(int(i))
+					print("dungeon")
+					print(self.dun)
+					del listAll[0]
+					for i in self.dun:
+						ii = str(i)
+						if (ii in listAll):
+							listAll.remove(ii)
+					print(listAll)
+					#town name conversion
+					for i in listAll:
+						if i == "h":
+							print("breaking")
+							break
+						elif i == "g":
+							print("cont")
+						else:
+							print("appending " + i)
+							self.towN.append(i)
+					print("town names")
+					print(self.towN)
+					del listAll[0]
+					for i in self.towN:
+						if (i in listAll):
+							listAll.remove(i)
+					print(listAll)
+					#dungeon name conversion
+					for i in listAll:
+						if i == "":
+							print("breaking")
+							break
+						elif i == "h":
+							print("cont")
+						else:
+							print("appending " + i)
+							self.dunN.append(i)
+					print("dungeon names")
+					print(self.dunN)
+					del listAll[0]
+					for i in self.dunN:
+						
+						if (i in listAll):
+							listAll.remove(i)
+					print(listAll)
 		#lists of all possible spellings of directions, one per direction
 		self.nord = ["North", "north", "N", "n"]
 		self.sud = ["South", "south", "S", "s"]
@@ -291,11 +455,14 @@ class App(tk.Tk):
 				stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "this is the letter \'a\' from the latin alphabet.")
 				self.output['text'] = stes
 				self.twoyv -= 30
+		#test function
+		def AAAA():
+			print("AAAA")		
 		#print(self.output)
 		entSp = ent.split(' ')	
 		print(entSp)
 		argd = {"test" : ee.printer, "look" : ee.look}
-		argless = {"ha" : laugh, "North" : north, "north" : north, "N" : north, "n" : north, "S" : south, "s" : south, "south" : south, "South" : south, "e" : east, "E" : east, "east" : east, "East" : east, "w" : west, "W" : west, "west" : west, "West" : west, "index" : pxn}
+		argless = {"ha" : laugh, "North" : north, "north" : north, "N" : north, "n" : north, "S" : south, "s" : south, "south" : south, "South" : south, "e" : east, "E" : east, "east" : east, "East" : east, "w" : west, "W" : west, "west" : west, "West" : west, "index" : pxn, "exit": App.onClose}
 		items = {"a", "here"}#<--- This is there so items/arguments in the game don't give an error when you put their names in a command
 		for c in entSp:
 			if c in argless:
@@ -322,6 +489,9 @@ class App(tk.Tk):
 				break
 		self.output.place(y=self.twoyv)
 		self.entry.delete(0,999)
+	def onClose():
+		root.destroy()
 #these make the program go
 app = App(root) 
+root.protocol("WM_DELETE_WINDOW", App.onClose)
 root.mainloop()
