@@ -86,7 +86,6 @@ class App(tk.Tk):
 						ii = str(i)
 						if (ii in listAll):
 							listAll.remove(ii)
-					print(listAll)
 					#bunker conversion
 					for i in listAll:
 						if i == "c":
@@ -104,7 +103,6 @@ class App(tk.Tk):
 						ii = str(i)
 						if (ii in listAll):
 							listAll.remove(ii)
-					print(listAll)
 					#rough conversion
 					for i in listAll:
 						if i == "d":
@@ -122,7 +120,6 @@ class App(tk.Tk):
 						ii = str(i)
 						if (ii in listAll):
 							listAll.remove(ii)
-					print(listAll)
 					#fairway conversion
 					for i in listAll:
 						if i == "e":
@@ -140,7 +137,6 @@ class App(tk.Tk):
 						ii = str(i)
 						if (ii in listAll):
 							listAll.remove(ii)
-					print(listAll)
 					#town conversion
 					for i in listAll:
 						if i == "f":
@@ -158,7 +154,6 @@ class App(tk.Tk):
 						ii = str(i)
 						if (ii in listAll):
 							listAll.remove(ii)
-					print(listAll)
 					#dungeon conversion
 					for i in listAll:
 						if i == "g":
@@ -176,7 +171,6 @@ class App(tk.Tk):
 						ii = str(i)
 						if (ii in listAll):
 							listAll.remove(ii)
-					print(listAll)
 					#town name conversion
 					for i in listAll:
 						if i == "h":
@@ -193,7 +187,6 @@ class App(tk.Tk):
 					for i in self.towN:
 						if (i in listAll):
 							listAll.remove(i)
-					print(listAll)
 					#dungeon name conversion
 					for i in listAll:
 						if i == "":
@@ -211,7 +204,6 @@ class App(tk.Tk):
 						
 						if (i in listAll):
 							listAll.remove(i)
-					print(listAll)
 		#lists of all possible spellings of directions, one per direction
 		self.nord = ["North", "north", "N", "n"]
 		self.sud = ["South", "south", "S", "s"]
