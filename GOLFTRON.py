@@ -69,141 +69,18 @@ class App(tk.Tk):
 					self.towN = []
 					self.dunN = []
 					#converting raw data to a usable format
-					#water conversion
 					for i in listAll:
-						if i == "b":
-							print("breaking")
-							break
-						elif i == "a":
-							print("cont")
-						else:
-							print("appending " + i)
-							self.wat.append(int(i))
-					print("water")
-					print(self.wat)
-					del listAll[0]
-					for i in self.wat:
-						ii = str(i)
-						if (ii in listAll):
-							listAll.remove(ii)
-					#bunker conversion
-					for i in listAll:
-						if i == "c":
-							print("breaking")
-							break
-						elif i == "b":
-							print("cont")
-						else:
-							print("appending " + i)
-							self.bun.append(int(i))
-					print("bunker")
-					print(self.bun)
-					del listAll[0]
-					for i in self.bun:
-						ii = str(i)
-						if (ii in listAll):
-							listAll.remove(ii)
-					#rough conversion
-					for i in listAll:
-						if i == "d":
-							print("breaking")
-							break
-						elif i == "c":
-							print("cont")
-						else:
-							print("appending " + i)
-							self.rou.append(int(i))
-					print("rough")
-					print(self.rou)
-					del listAll[0]
-					for i in self.rou:
-						ii = str(i)
-						if (ii in listAll):
-							listAll.remove(ii)
-					#fairway conversion
-					for i in listAll:
-						if i == "e":
-							print("breaking")
-							break
-						elif i == "d":
-							print("cont")
-						else:
-							print("appending " + i)
-							self.fai.append(int(i))
-					print("fairway")
-					print(self.fai)
-					del listAll[0]
-					for i in self.fai:
-						ii = str(i)
-						if (ii in listAll):
-							listAll.remove(ii)
-					#town conversion
-					for i in listAll:
-						if i == "f":
-							print("breaking")
-							break
-						elif i == "e":
-							print("cont")
-						else:
-							print("appending " + i)
-							self.tow.append(int(i))
-					print("town")
-					print(self.tow)
-					del listAll[0]
-					for i in self.tow:
-						ii = str(i)
-						if (ii in listAll):
-							listAll.remove(ii)
-					#dungeon conversion
-					for i in listAll:
-						if i == "g":
-							print("breaking")
-							break
-						elif i == "f":
-							print("cont")
-						else:
-							print("appending " + i)
-							self.dun.append(int(i))
-					print("dungeon")
-					print(self.dun)
-					del listAll[0]
-					for i in self.dun:
-						ii = str(i)
-						if (ii in listAll):
-							listAll.remove(ii)
-					#town name conversion
-					for i in listAll:
-						if i == "h":
-							print("breaking")
-							break
-						elif i == "g":
-							print("cont")
-						else:
-							print("appending " + i)
-							self.towN.append(i)
-					print("town names")
-					print(self.towN)
-					del listAll[0]
-					for i in self.towN:
-						if (i in listAll):
+						try:
+							ni = int(i)
+							ii = listAll.index(i)
 							listAll.remove(i)
-					#dungeon name conversion
-					for i in listAll:
-						if i == "":
-							print("breaking")
-							break
-						elif i == "h":
-							print("cont")
-						else:
-							print("appending " + i)
-							self.dunN.append(i)
-					print("dungeon names")
-					print(self.dunN)
-					del listAll[0]
-					for i in self.dunN:
-						
-						if (i in listAll):
-							listAll.remove(i)
+							listAll.insert(ii, ni)
+						except ValueError:
+							print("not an int")
+					w = "a"
+					#splits the list into its component lists
+					spl = [list(y) for x, y in itertools.groupby(listAll, lambda z: z == w) if not x]
+					self.wat, self.bun, self.rou, self.fai, self.tow, self.dun, self.towN, self.dunN = spl
 		#lists of all possible spellings of directions, one per direction
 		self.nord = ["North", "north", "N", "n"]
 		self.sud = ["South", "south", "S", "s"]
@@ -239,6 +116,7 @@ class App(tk.Tk):
 				self.output['text'] = stes
 				self.twoyv -= 30
 			#describes your surroundings by comparing the lists of area types
+			#is there a more pythonic way to do this?
 			def look(a):
 				#look at where you are
 				if (a == "here"):
@@ -270,6 +148,8 @@ class App(tk.Tk):
 						stes = self.disp.set(self.disp.get() + "\n>" + ent + "\n" + "You approach a dungeon. It looks like a " + dname + ".")
 						self.output['text'] = stes
 						self.twoyv -= 30
+					else:
+						print("error: unable to determine location")
 				#look north
 				elif (a in self.nord):
 					if ((self.PXN - 9) in self.wat):
@@ -474,7 +354,7 @@ class App(tk.Tk):
 				print(entSpJ)
 				sterr = self.disp.set(self.disp.get() +"\n>" + entSpJ +"\n" + "I don't understand what you mean.")
 				self.output['text'] = sterr
-				print("42 >:(")
+				print(">:(")
 				print(c)
 				x = len(entSp)
 				self.twoyv -= (30)

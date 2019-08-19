@@ -54,31 +54,31 @@ class worldgen():
 			for i in worldgen.wate:
 				sW.write(str(i))
 				sW.write(';')
-			sW.write("b;")
+			sW.write("a;")
 			for i in worldgen.bunk:
 				sW.write(str(i))
 				sW.write(';')
-			sW.write("c;")
+			sW.write("a;")
 			for i in worldgen.roug:
 				sW.write(str(i))
 				sW.write(';')
-			sW.write("d;")
+			sW.write("a;")
 			for i in worldgen.fair:
 				sW.write(str(i))
 				sW.write(';')
-			sW.write("e;")
+			sW.write("a;")
 			for i in worldgen.town:
 				sW.write(str(i))
 				sW.write(';')
-			sW.write("f;")
+			sW.write("a;")
 			for i in worldgen.dung:
 				sW.write(str(i))
 				sW.write(';')
-			sW.write("g;")
+			sW.write("a;")
 			for i in worldgen.townName:
 				sW.write(i)
 				sW.write(';')
-			sW.write("h;")
+			sW.write("a;")
 			for i in worldgen.dungName:
 				sW.write(i)
 				sW.write(';')
