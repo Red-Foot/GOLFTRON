@@ -1,5 +1,4 @@
 #!usr/bin/python
-#tiles: field, path, home, store, inn
 from random import *
 import math
 from PIL import Image
@@ -7,10 +6,19 @@ from multiprocessing import Process,Pipe
 import time
 import dng
 import tng
+import os, os.path
 
+
+#generates towns
 class towngen():
-	#opens file for putting the arrays into
-	townFile = open("./output files/towntypes", "a+")
+	townFileNum = 1
+	townFileCheck = open("./output files/towndig", 'a+')
+	if townFileNum in townFileCheck:
+		print("there's a town with ID " + townFileNum + ". Retrying...")
+		townFileNum += 1
+	else:
+		townFile = os.path.join(os.getcwd(), "town", str(townFileNum))
+		print(townFile)
 	townFile.seek(0)
 	townsize = range(1,3)
 	sizechoice = choice(towngen.townsize)
@@ -244,9 +252,9 @@ class towngen():
 		towngen.townFile.seek(0)
 		if ('field' not in towngen.townFile.read()):
 			if (towngen.sizechoice == 3):
-				rtotF = 36 - (len(townH) + len(townS) + len(townI) + len(townC)
+				rtotF = 36 - (len(townH) + len(townS) + len(townI) + len(townC))
 			elif (towngen.sizechoice == 2):
-				rtotF = 25 - (len(townH) + len(townS) + len(townI) + len(townC)
+								rtotF = 25 - (len(townH) + len(townS) + len(townI) + len(townC))
 			else:
 				rtotF = 16 - (len(townH) + len(townS) + len(townI) + len(townC))
 			i = 0
