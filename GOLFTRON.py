@@ -8,8 +8,6 @@ import linecache as lc
 from multiprocessing import Process,Queue,Pipe
 import itertools
 
-#NEXT STEP: fit it to the style guide
-
 # !! declaring global values !!
 #words for travelling that the functions need to recognize
 nord = ["North", "north", "N", "n"]
